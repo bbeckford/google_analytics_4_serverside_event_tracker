@@ -5,7 +5,7 @@ class ga4_event_tracker {
 	// your measurement id
 	private const MEASUREMENT_ID = 'G-ABCDEFGHI1';
 
-	public static function track_event_ga4($ga_category, $ga_action = "", $ga_label = "", $ga_value = "") : bool
+	public static function track_event_ga4($ga_category, $ga_action = '', $ga_label = '', $ga_value = '') : bool
 	{
 		$data = [
 			'v' => 2, // version num
@@ -66,9 +66,9 @@ class ga4_event_tracker {
 	// handle the parsing of the _ga cookie or setting it to a unique identifier
 	private static function ga_extract_cid_from_cookies() {
 
-		if(isset($_COOKIE["_ga"]))
+		if(isset($_COOKIE['_ga']))
 		{
-			preg_match_all('/^(\w+\.){2}(?<cid>\w+\.\w+)/', $_COOKIE["_ga"], $matches);
+			preg_match_all('/^(\w+\.){2}(?<cid>\w+\.\w+)/', $_COOKIE['_ga'], $matches);
 			$cid = $matches['cid'];
 		}
 		else
@@ -77,10 +77,10 @@ class ga4_event_tracker {
 			// make up a _ga cookie using variables based on what we know about the _ga cookie, advice taken from multiple sources including - http://taylrr.co.uk/blog/server-side-analytics/
 			// will need to check against the js cookies now and then to ensure compatability
 			$cid = rand(1000000000, 2147483647).".{$time}";
-			$numDomainComponents = count(explode(".", preg_replace('/^www\./', '', $_SERVER["HTTP_HOST"])));
-			$ga = "GA1.".$numDomainComponents.".".$cid;
-			setcookie('_ga', $ga, $time+63115200, CP_ROOT, $_SERVER["HTTP_HOST"],false,false);
-			$_COOKIE["_ga"] = $ga;
+			$numDomainComponents = count(explode('.', preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'])));
+			$ga = "GA1.{$numDomainComponents}.{$cid}";
+			setcookie('_ga', $ga, $time+63115200, '/', $_SERVER['HTTP_HOST'], false, false);
+			$_COOKIE['_ga'] = $ga;
 		}
 
 		return $cid;
@@ -93,7 +93,7 @@ class ga4_event_tracker {
 
 		$measurement_id_suffix = substr($measurement_id, 2);
 
-		$cookie_name = "_ga_".$measurement_id_suffix;
+		$cookie_name = "_ga_{$measurement_id_suffix}";
 		if(isset($_COOKIE[$cookie_name]))
 		{
 			preg_match_all('/^(\w+\.){2}(?<sid>\w+)\.(?<sct>\w+)/', $_COOKIE[$cookie_name], $matches);
