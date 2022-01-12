@@ -69,7 +69,7 @@ class ga4_event_tracker {
 		if(isset($_COOKIE['_ga']))
 		{
 			preg_match_all('/^(\w+\.){2}(?<cid>\w+\.\w+)/', $_COOKIE['_ga'], $matches);
-			$cid = $matches['cid'];
+			$cid = $matches['cid'][0];
 		}
 		else
 		{
@@ -97,8 +97,8 @@ class ga4_event_tracker {
 		if(isset($_COOKIE[$cookie_name]))
 		{
 			preg_match_all('/^(\w+\.){2}(?<sid>\w+)\.(?<sct>\w+)/', $_COOKIE[$cookie_name], $matches);
-			$result['sid'] = $matches['sid'];
-			$result['sct'] = $matches['sct'];
+			$result['sid'] = $matches['sid'][0];
+			$result['sct'] = $matches['sct'][0];
 		}
 		else
 		{
